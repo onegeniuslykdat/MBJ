@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './cart.css'
 import logo from '../Assets/minibanner.png'
 import { MiniHeaderBanner } from '../Components/MiniHeaderBanner'
@@ -77,7 +78,7 @@ export const Cart = () => {
       </table>
     </div>}
     <div className='row'>
-      <a href='/checkout' className='btn btn-success w-100'>Proceed to Checkout</a>
+      <Link to='/checkout' className='btn btn-success w-100'>Proceed to Checkout</Link>
     </div>
   </main>
 }
