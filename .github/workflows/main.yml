@@ -23,6 +23,7 @@ jobs:
      run: npm install
 
    - name: Fix build script permissions
+     working-directory: source/Frontend
      run: chmod +x node_modules/.bin/react-scripts
    
    - name: Build App
