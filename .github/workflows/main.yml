@@ -1,31 +1,25 @@
+---
 name: Deploy App to GitHub Pages
-
-on:
-push:
+on: null
+push: null
 branches:
-- main
-
-jobs:
-deploy:
+  - main
+jobs: null
+deploy: null
 runs-on: ubuntu-latest
-
 steps:
-- name: Checkout Repository
-uses: actions/checkout@v3
-
-- name: Setup Node.js
-uses: actions/setup-node@v4
-with:
-node-version: '18'
-
-- name: Install Dependencies
-run: npm install
-
-- name: Build App
-run: npm run build
-
-- name: Deploy to GitHub Pages
-uses: JamesIves/github-pages-deploy-action@v4
-with:
-branch: gh-pages
-folder: build
+  - name: Checkout Repository
+    uses: actions/checkout@v3
+  - name: Setup Node.js
+    uses: actions/setup-node@v4
+    with: null
+    node-version: "18"
+  - name: Install Dependencies
+    run: npm install
+  - name: Build App
+    run: npm run build
+  - name: Deploy to GitHub Pages
+    uses: JamesIves/github-pages-deploy-action@v4
+    with: null
+    branch: gh-pages
+    folder: build
