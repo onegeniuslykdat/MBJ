@@ -19,7 +19,7 @@ jobs:
       node-version: '18'
   
    - name: Install Dependencies
-     working-directory: ./Frontend
+     working-directory: source/Frontend
      run: npm install
    
    - name: Build App
