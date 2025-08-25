@@ -21,6 +21,9 @@ jobs:
    - name: Install Dependencies
      working-directory: source/Frontend
      run: npm install
+
+   - name: Fix build script permissions
+     run: chmod +x node_modules/.bin/react-scripts
    
    - name: Build App
      working-directory: source/Frontend
