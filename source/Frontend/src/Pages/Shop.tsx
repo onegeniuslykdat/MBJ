@@ -1,6 +1,6 @@
-import { ProductList } from '../Components/ProductList'
-import logo from '../Assets/minibanner.png'
-import { MiniHeaderBanner } from '../Components/MiniHeaderBanner'
+import { ProductList } from '../Components/ProductList';
+import logo from '../Assets/minibanner.png';
+import { MiniHeaderBanner } from '../Components/MiniHeaderBanner';
 
 export const Shop = () => {
   return <main className="container">

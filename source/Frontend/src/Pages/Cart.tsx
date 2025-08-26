@@ -50,9 +50,9 @@ export const Cart = () => {
             <tr key={item.id}>
             <td>{item.id}</td>
             <td>
-              <a href={`shop/products/${item.product.id}`}>
+              {/* <Link to={`shop/products/${item.product.id}`}> */}
                 <img src={item.product.imageUrl} className='img-thumbnail' width={100} alt={item.product.name} />
-              </a>
+              {/* </Link> */}
             </td>
             <td>{item.quantity}</td>
             <td>${item.product.price}</td>

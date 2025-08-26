@@ -15,49 +15,6 @@ export const Checkout = () => {
       <h5 className='text-center'>No items ordered</h5>
     </div>}
     {cartItems.length >= 1 && <div className='row'>
-      <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12'>
-        <table className='table table-striped table-bordered'>
-          <thead>
-            <tr>
-              <th>S/N</th>
-              <th>Product</th>
-              <th>Total Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>
-                <a href='shop/products/1'>
-                  <img src='https://i.ytimg.com/vi/d1QJPQwDByA/maxresdefault.jpg' className='img-thumbnail' width={80} alt='Product 1' />
-                </a>
-              </td>
-              <td>${50.00}</td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td></td>
-              <td></td>
-              <td>Total: ${50.00}</td>
-            </tr>
-          </tfoot>
-        </table>
-        <div className='panel'>
-          <h5>Account details</h5>
-          <ul>
-            <li>Account Name: ***</li>
-            <li>Account Number: ***</li>
-            <li>Bank: ***</li>
-            <li>BSB: ***</li>
-          </ul>
-          <h5>Order Total: ${70.00}</h5>
-          <ul>
-            <li>Items: ${50.00}</li>
-            <li>Delivery: ${20.00}</li>
-          </ul>
-        </div>
-      </div>
       <div className='col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12'>
         <form>
           <div className='row mb-2'>
@@ -127,6 +84,49 @@ export const Checkout = () => {
           </div>
         </form>
       </div>
+      <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12'>
+        <table className='table table-striped table-bordered'>
+          <thead>
+            <tr>
+              <th>S/N</th>
+              <th>Product</th>
+              <th>Total Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>
+                <a href='shop/products/1'>
+                  <img src='https://i.ytimg.com/vi/d1QJPQwDByA/maxresdefault.jpg' className='img-thumbnail' width={80} alt='Product 1' />
+                </a>
+              </td>
+              <td>${50.00}</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td></td>
+              <td></td>
+              <td>Total: ${50.00}</td>
+            </tr>
+          </tfoot>
+        </table>
+        <div className='panel'>
+          <h5>Account details</h5>
+          <ul>
+            <li>Account Name: ***</li>
+            <li>Account Number: ***</li>
+            <li>Bank: ***</li>
+            <li>BSB: ***</li>
+          </ul>
+          <h5>Order Total: ${70.00}</h5>
+          <ul>
+            <li>Items: ${50.00}</li>
+            <li>Delivery: ${20.00}</li>
+          </ul>
+        </div>
+      </div>      
     </div>}
   </main>
 }

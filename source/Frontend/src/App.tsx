@@ -1,15 +1,15 @@
-import { Routes, Route, BrowserRouter } from 'react-router-dom'
-import { Header } from './Components/Layout/Header'
-import { Home } from './Pages/Home'
-import { Shop } from './Pages/Shop'
-import { About } from './Pages/About'
-import { Cart } from './Pages/Cart'
-import { Checkout } from './Pages/Checkout'
-import { ProductDetails } from './Pages/ProductDetails'
-import { Footer } from './Components/Layout/Footer'
-import { Terms } from './Pages/Terms'
-import { Privacy } from './Pages/Privacy'
-import { CartContextProvider } from './Context/CartContext'
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import { Header } from './Components/Layout/Header';
+import { Home } from './Pages/Home';
+import { Shop } from './Pages/Shop';
+import { About } from './Pages/About';
+import { Cart } from './Pages/Cart';
+import { Checkout } from './Pages/Checkout';
+import { ProductDetails } from './Pages/ProductDetails';
+import { Footer } from './Components/Layout/Footer';
+import { Terms } from './Pages/Terms';
+import { Privacy } from './Pages/Privacy';
+import { CartContextProvider } from './Context/CartContext';
 
 function App() {
   return (
