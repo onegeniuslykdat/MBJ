@@ -11,7 +11,7 @@ export class CartServices {
         }
     }
 
-    static CreateCart = (): Cart | undefined => {
+    static CreateNewCart = (): Cart | undefined => {
         try {
             return {
                 id: 1,

@@ -10,7 +10,7 @@ interface CartContextModel {
 export const CartContext = createContext<CartContextModel | undefined>(undefined);
 
 export function CartContextProvider({ children }: PropsWithChildren) {
-    const [cart, setCart] = useState<Cart | undefined>(CartServices.CreateCart());
+    const [cart, setCart] = useState<Cart | undefined>(CartServices.CreateNewCart());
     
     return (
         <CartContext.Provider value={{ cart, setCart}}>

@@ -77,8 +77,11 @@ export const Checkout = () => {
     }
     if (order !== undefined) {
       // sendEmail
+
+      // new and clean cart
+      cartContext?.setCart(CartServices.CreateNewCart());
     }
-  }, [address, addressConfirmed, postcode, state, suburb, order])
+  }, [address, addressConfirmed, postcode, state, suburb, order, cartContext])
 
   const setAddressAndDelivery = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (address !== '' && suburb !== '' && state === '') {
@@ -89,7 +92,8 @@ export const Checkout = () => {
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    console.log(e);
+    //console.log(e);
+
     // update cart
     let newCartDetails = {
       status: CartStatus.PAID,
@@ -259,31 +263,33 @@ export const Checkout = () => {
           }
           <hr />
 
-          <div className='row mb-2'>
-            <div className='form-group col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-              <label htmlFor='receipt'>Upload payment receipt</label>
-              <input type='file' className='form-control' name='receipt' accept='image/*, application/pdf' id='receipt' required onChange={(e) => setReceipt(e.target.files !== null ? e.target.files[0] : undefined)} />
+          {(!isDelivery || (isDelivery && addressConfirmed)) && <>
+            <div className='row mb-2'>
+              <div className='form-group col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                <label htmlFor='receipt'>Upload payment receipt</label>
+                <input type='file' className='form-control' name='receipt' accept='image/*, application/pdf' id='receipt' required onChange={(e) => setReceipt(e.target.files !== null ? e.target.files[0] : undefined)} />
+              </div>
             </div>
-          </div>
-          <div className='row mb-2'>
-            <div className='form-group col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-              <label htmlFor='notes'>Additional Notes</label>
-              <textarea className='form-control' id='notes' placeholder='Any additional notes' rows={5} value={notes} onChange={(e) => setNotes(e.currentTarget.value)}></textarea>
+            <div className='row mb-2'>
+              <div className='form-group col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                <label htmlFor='notes'>Additional Notes</label>
+                <textarea className='form-control' id='notes' placeholder='Any additional notes' rows={5} value={notes} onChange={(e) => setNotes(e.currentTarget.value)}></textarea>
+              </div>
             </div>
-          </div>
-          <div className='row mb-2'>
-            <div className='form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12'>
-              <input className='form-check-input' type='checkbox' name='terms' id='terms' required /> &nbsp;
-              <label htmlFor='terms'>Accept <Link to='MBJ/terms' target='_blank'>Terms of services</Link></label>
+            <div className='row mb-2'>
+              <div className='form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12'>
+                <input className='form-check-input' type='checkbox' name='terms' id='terms' required /> &nbsp;
+                <label htmlFor='terms'>Accept <Link to='MBJ/terms' target='_blank'>Terms of services</Link></label>
+              </div>
+              <div className='form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12'>
+                <input className='form-check-input' type='checkbox' name='privacy' id='privacy' required /> &nbsp;
+                <label htmlFor='privacy'>Accept <Link to='MBJ/privacy' target='_blank'>Privacy Policy</Link></label>
+              </div>
             </div>
-            <div className='form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12'>
-              <input className='form-check-input' type='checkbox' name='privacy' id='privacy' required /> &nbsp;
-              <label htmlFor='privacy'>Accept <Link to='MBJ/privacy' target='_blank'>Privacy Policy</Link></label>
+            <div className='row mb-2'>
+              <button type='submit' className='btn btn-success w-100'>Complete Order</button>
             </div>
-          </div>
-          <div className='row mb-2'>
-            <button type='submit' className='btn btn-success w-100'>Complete Order</button>
-          </div>
+          </>}
         </form>
       </div>
     </div>}
