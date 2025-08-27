@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './cart.css'
 import logo from '../Assets/minibanner.png'
 import { MiniHeaderBanner } from '../Components/MiniHeaderBanner'
@@ -6,24 +6,22 @@ import { TrashFill } from 'react-bootstrap-icons'
 import { useContext } from 'react';
 import { CartContext } from "../Context/CartContext";
 import CartProduct from '../Models/CartProduct';
+import { CartServices } from '../Services/CartServices';
 
 export const Cart = () => {
   const cartContext = useContext(CartContext);
-  const cartItems =  cartContext?.cart?.products as CartProduct[];
+  const cartItems = cartContext?.cart?.products as CartProduct[];
+  const navigate = useNavigate();
 
-  const handleRemoveFromCart = () => {
-      // let cart = cartContext?.cart as Cart;
-      // let currProductCount = cart.products?.length !== 0 ? cart.products?.length : 0;
-      // let cartProduct: CartProduct = {
-      //   id: currProductCount + 1,
-      //   cartId: cartContext?.cart?.id as number,
-      //   quantity,
-      //   product
-      // };
-      // let updatedCart = CartServices.AddCartProduct(cart, cartProduct);
-      // cartContext?.setCart(updatedCart);
-      alert('Removed from cart!');
-    }
+  const handleRemoveFromCart = (e: React.MouseEvent<HTMLButtonElement>) => {
+    console.log(e.currentTarget);
+    const itemId: string = e.currentTarget.dataset.id as string;
+    const cartProduct: CartProduct = cartItems.find(i => i.id === parseInt(itemId)) as CartProduct;
+    let updatedCart = CartServices.DeleteCartProduct(cartContext?.cart, cartProduct);
+    cartContext?.setCart(updatedCart);
+    alert('Removed from cart!');
+    navigate('/MBJ/cart');
+  }
 
   return <main className='container'>
     <MiniHeaderBanner source={logo} />
@@ -48,21 +46,21 @@ export const Cart = () => {
         <tbody>
           {cartItems.map((item) => (
             <tr key={item.id}>
-            <td>{item.id}</td>
-            <td>
-              {/* <Link to={`shop/products/${item.product.id}`}> */}
-                <img src={item.product.imageUrl} className='img-thumbnail' width={100} alt={item.product.name} />
-              {/* </Link> */}
-            </td>
-            <td>{item.quantity}</td>
-            <td>${item.product.price}</td>
-            <td>${item.quantity * item.product.price}</td>
-            <td>
-              <button className='btn btn-danger delete' title='delete' onClick={() => handleRemoveFromCart()}>
-                <TrashFill className='text-danger' />
-              </button>
-            </td>
-          </tr>
+              <td>{item.id}</td>
+              <td>
+                <Link to={`/MBJ/shop/products/${item.product.id}`}>
+                  <img src={item.product.imageUrl} className='img-thumbnail' width={100} alt={item.product.name} />
+                </Link>
+              </td>
+              <td>{item.quantity}</td>
+              <td>${item.product.price}</td>
+              <td>${item.quantity * item.product.price}</td>
+              <td>
+                <button className='btn btn-danger delete' id='delete' title='delete' data-id={item.id} onClick={(e) => handleRemoveFromCart(e)}>
+                  <TrashFill className='text-danger' />
+                </button>
+              </td>
+            </tr>
           ))}
         </tbody>
         <tfoot>
@@ -78,7 +76,7 @@ export const Cart = () => {
       </table>
     </div>}
     <div className='row'>
-      <Link to='/checkout' className='btn btn-success w-100'>Proceed to Checkout</Link>
+      <Link to='/MBJ/checkout' className='btn btn-success w-100'>Proceed to Checkout</Link>
     </div>
   </main>
 }

@@ -19,15 +19,15 @@ function App() {
           <BrowserRouter>
           <Header />
             <Routes>
-              <Route path='/' element={<Home />} />
+              <Route path='/MBJ' element={<Home />} />
               <Route index element={<Home />} />
-              <Route path="shop" element={<Shop />} />
-              <Route path="about" element={<About />} />
-              <Route path="cart" element={<Cart />} />
-              <Route path="checkout" element={<Checkout />} />
-              <Route path="shop/products/:id" element={<ProductDetails />} />
-              <Route path="terms" element={<Terms />} />
-              <Route path="privacy" element={<Privacy />} />
+              <Route path='/MBJ/shop' element={<Shop />} />
+              <Route path='/MBJ/about' element={<About />} />
+              <Route path='/MBJ/cart' element={<Cart />} />
+              <Route path='/MBJ/checkout' element={<Checkout />} />
+              <Route path='/MBJ/shop/products/:id' element={<ProductDetails />} />
+              <Route path='/MBJ/terms' element={<Terms />} />
+              <Route path='/MBJ/privacy' element={<Privacy />} />
             </Routes>
           </BrowserRouter>
           <hr />

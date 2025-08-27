@@ -2,6 +2,7 @@ import { AboutUsSummary } from '../Components/AboutUsSummary'
 import { Contact } from '../Components/Contact'
 import { ProductList } from '../Components/ProductList'
 import logo from '../Assets/logo.png'
+import { Link } from 'react-router-dom'
 
 export const Home = () => {
     return <main className='container'>
@@ -15,17 +16,10 @@ export const Home = () => {
           <div className='position-absolute top-50 start-50 translate-middle text-center text-white'>
             <h1 className='display-3 fw-bold'>Welcome to Mary's Joint</h1>
             <p className='fw-bold lead'>Discover fresh, high-quality foods prepared just for you.</p>
-            <a href='/shop' className='btn btn-info btn-lg'>Order Now</a>
+            <Link to='shop' className='btn btn-info btn-lg'>Order Now</Link>
           </div>
         </div>
       </section>
-      {/* <header className='banner'>
-        <div className='container'>
-            <h1>Welcome to Our Website</h1>
-            <p>Your success starts here</p>
-            <a href='#learn-more' className='btn btn-primary'>Learn More</a>
-        </div>
-    </header> */}
       <ProductList count={3} />
       <AboutUsSummary />
       <Contact />

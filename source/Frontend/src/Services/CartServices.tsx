@@ -1,6 +1,7 @@
 import Cart from "../Models/Cart";
 import CartProduct from "../Models/CartProduct";
 import { CartStatus } from "../Models/CartStatus";
+import Customer from "../Models/Customer";
 
 export class CartServices {
     static GetCart = (cart: Cart) => {
@@ -16,7 +17,16 @@ export class CartServices {
                 id: 1,
                 status: CartStatus.BEGIN,
                 products: [],
-                customer: undefined
+                customer: {
+                    email: '',
+                    phone: '',
+                    firstName: '',
+                    lastName: '',
+                    addressLine: '',
+                    suburb: '',
+                    postcode: '',
+                    state: ''
+                } as Customer
             } as Cart;
         } catch (error) {
             console.log(error);
@@ -38,6 +48,7 @@ export class CartServices {
     static AddCartProduct = (cart: Cart, product: CartProduct): Cart | undefined => {
         try {
             cart.products?.push(product);
+            cart.status = CartStatus.CART;
             return cart;
         } catch (error) {
             console.log(error);
@@ -59,14 +70,14 @@ export class CartServices {
         }
     }
 
-    static DeleteCartProduct = (cart: Cart, productToDelete: CartProduct): Cart | undefined => {
+    static DeleteCartProduct = (cart: Cart | undefined, productToDelete: CartProduct): Cart | undefined => {
         try {
-            let index = cart.products?.findIndex(p => p.id === productToDelete.id);
+            let index = cart?.products?.findIndex(p => p.id === productToDelete.id);
             if (index === undefined) {
                 console.log('Product not found');
                 return undefined;
             } else {
-                cart.products?.splice(index, 1);
+                cart?.products?.splice(index, 1);
                 return cart;
             }
         } catch (error) {

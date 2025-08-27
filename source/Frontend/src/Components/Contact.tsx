@@ -9,18 +9,18 @@ export const Contact = () => {
         <p className='text-center'>If you have any questions or need further information, feel free to reach us through the info below</p>
         <div className='col-xl-4 col-lg-4'>
           <h4 className='text-center'><Building /></h4>
-          <p className='text-center fw-bold'>{config.Company.Address}</p>
+          <p className='text-center fw-bold'>{config.Company.Address}, {config.Company.Suburb}</p>
         </div>
         <div className='col-xl-4 col-lg-4'>
           <h4 className='text-center'><Phone /></h4>
           <p className='text-center fw-bold'>
-            <a href={`tel${config.Company.Phone}`}>+{config.Company.Phone}</a>
+            <a href={`tel:${config.Company.Phone}`}>+{config.Company.Phone}</a>
           </p>
         </div>
         <div className='col-xl-4 col-lg-4'>
           <h4 className='text-center'><EnvelopeAt /></h4>
           <p className='text-center fw-bold'>
-            <a href={`mailto${config.Company.Email}`}>{config.Company.Email}</a>
+            <a href={`mailto:${config.Company.Email}`}>{config.Company.Email}</a>
           </p>
         </div>
         {/* <div className='col-12'>

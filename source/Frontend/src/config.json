@@ -1,9 +1,14 @@
 {
     "BaseUrl": "https://localhost:7225",
+    "DeliveryCostPerDistance": 0.6,
+    "DeliveryCostPerTime": 0.6,
+    "DeliveryDistanceWeight": 1,
+    "DeliveryTimeWeight": 0,
     "Company": {
         "Name": "Mary's Joint",
         "LogoUrl": "/logo.png",
         "Address": "Brisbane",
+        "Suburb": "Brisbane",
         "PostCode": 4000,
         "State": "Queensland",
         "Phone": "61409004112",
@@ -16,6 +21,12 @@
             "Facebook": {
 
             }
+        },
+        "BankDetails": {
+            "AccountName": "",
+            "AccountNumber": "",
+            "Bank": "",
+            "BSB": ""
         }
     }
 }

@@ -20,7 +20,6 @@ export const ProductDetails = () => {
 
   const handleAddToCart = () => {
     let cart = cartContext?.cart as Cart;
-    console.log('Curr Cart', cart);
 
     let currProductCount = cart.products?.length !== 0 ? cart.products?.length : 0;
     let cartProduct: CartProduct = {
@@ -30,7 +29,6 @@ export const ProductDetails = () => {
       product
     };
     let updatedCart = CartServices.AddCartProduct(cart, cartProduct);
-    console.log('New Cart', updatedCart);
     
     cartContext?.setCart(updatedCart);
     alert('Added to cart!');
