@@ -38,7 +38,7 @@
         "id": 6,
         "name": "Sauce",
         "description": "Extra: sauce",
-        "price": 35.00,
+        "price": 5.00,
         "imageUrl": "/prodimages/sauce.jpg"
     }
 ]

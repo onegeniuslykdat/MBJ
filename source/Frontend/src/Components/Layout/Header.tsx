@@ -27,7 +27,7 @@ export const Header = () => {
                 borderRadius: '50%',
                 backgroundColor: 'deepskyblue' ,
                 padding: '3px',
-                fontSize: '27px'
+                fontSize: '40px'
               }} />
               {/* {
                 (cartContext !== undefined && (cartContext.cart?.products !== undefined && cartContext.cart?.products.length > 0)) && <span className='badge badge-info'>

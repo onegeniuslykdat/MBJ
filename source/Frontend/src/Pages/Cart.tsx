@@ -75,8 +75,8 @@ export const Cart = () => {
         </tfoot>
       </table>
     </div>}
-    <div className='row'>
+    {cartItems.length > 0 && <div className='row'>
       <Link to='/MBJ/checkout' className='btn btn-success w-100'>Proceed to Checkout</Link>
-    </div>
+    </div>}
   </main>
 }

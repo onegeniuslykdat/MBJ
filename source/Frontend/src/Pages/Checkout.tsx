@@ -2,6 +2,7 @@ import logo from '../Assets/minibanner.png'
 import { MiniHeaderBanner } from '../Components/MiniHeaderBanner'
 import { CartContext } from "../Context/CartContext";
 import { Link } from 'react-router-dom';
+import emailjs, { EmailJSResponseStatus } from '@emailjs/browser';
 import { useContext, useState, useEffect } from 'react';
 import CartProduct from '../Models/CartProduct';
 import { OrderMode } from '../Models/OrderMode';
@@ -15,11 +16,10 @@ import { CartStatus } from '../Models/CartStatus';
 export const Checkout = () => {
   const cartContext = useContext(CartContext);
   const cartItems = cartContext?.cart?.products as CartProduct[];
+  const now = new Date();
 
   const [isDelivery, setIsDelivery] = useState(false);
   const [addressConfirmed, setAddressConfirmed] = useState(false);
-  //const [deliveryDistance, setDeliveryDistance] = useState(0); //km
-  //const [deliveryTime, setDeliveryTime] = useState(0); //mins
   const [deliveryFee, setDeliveryFee] = useState(0);
 
   const [fname, setFname] = useState('');
@@ -38,21 +38,11 @@ export const Checkout = () => {
   const toggleShowAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsDelivery(e.currentTarget.id === OrderMode.DELIVERY);
     if (e.currentTarget.id === OrderMode.PICKUP) {
-      //setDeliveryDistance(0);
-      //setDeliveryTime(0);
       setDeliveryFee(0);
-
       setAddress('');
       setSuburb('');
       setPostcode('');
       setState('');
-
-      //customer.addressLine = address;
-      //customer.suburb = suburb;
-      //customer.postcode = postcode;
-      //customer.state = state;
-
-      //setCustomer(customer);
       setAddressConfirmed(false);
     }
   };
@@ -62,26 +52,34 @@ export const Checkout = () => {
       // get address from customer
       const customerFullAddress: string = `${address} ${suburb} ${state} ${postcode}`;
       const companyFullAddress: string = `${config.Company.Address} ${config.Company.Suburb} ${config.Company.State} ${config.Company.PostCode}`
+      const fullMapsAPIUrl = `${config.MapsFunctionApp.Url}`;
 
       // fetch distance and time from Google API
-      const distance: number = 100; // km
-      const time: number = 120; // mins
-
-      // set delivery
-      const deliveryCost: number = ((config.DeliveryDistanceWeight * config.DeliveryCostPerDistance * distance)) + (config.DeliveryTimeWeight * config.DeliveryCostPerTime * time);
-      //setDeliveryDistance(137);
-      //setDeliveryTime(137);
-
-      // set delivery cost
-      setDeliveryFee(deliveryCost);
+      fetch(fullMapsAPIUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          destinations: customerFullAddress,
+          origins: companyFullAddress
+        })
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          let distance = data.distance.value / 1000;
+          let time = data.duration.value / 60;
+          // set delivery cost
+          const deliveryCost: number = ((config.DeliveryDistanceWeight * config.DeliveryCostPerDistance * distance)) + (config.DeliveryTimeWeight * config.DeliveryCostPerTime * time);
+          setDeliveryFee(parseFloat(deliveryCost.toFixed(2)));
+        })
+        .catch((err) => {
+          console.log(err);
+        })
     }
-    if (order !== undefined) {
-      // sendEmail
-
-      // new and clean cart
-      cartContext?.setCart(CartServices.CreateNewCart());
-    }
-  }, [address, addressConfirmed, postcode, state, suburb, order, cartContext])
+  }, [address, addressConfirmed, postcode, state, suburb])
 
   const setAddressAndDelivery = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (address !== '' && suburb !== '' && state === '') {
@@ -92,7 +90,7 @@ export const Checkout = () => {
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    //console.log(e);
+    console.log(e);
 
     // update cart
     let newCartDetails = {
@@ -113,24 +111,34 @@ export const Checkout = () => {
 
     // update order:
     // set order address, customer, mode, products, notes, receipt, total cost
-    let now = new Date();
-    let order = {
+    let newOrder = {
       id: parseInt(now.getMonth() + now.getDate() + phone.substring(6) + now.getHours() + now.getMinutes() + now.getSeconds()),
       customer: newCartDetails.customer,
       orderMode: isDelivery ? OrderMode.DELIVERY : OrderMode.PICKUP,
       addressLine: address,
       suburb: suburb,
       postcode: postcode,
-      products: cartItems,
+      products: newCartDetails.products, //cartItems?
       notes: notes,
       receipt: receipt,
       totalCost: deliveryFee + cartItems.reduce((acc, item) => acc + (item.product.price * item.quantity), 0)
     } as Order;
-    setOrder(order);
+    setOrder(newOrder);
 
-    // send email with order and receipt*** UseEffect
+    // send email with receipt
+    emailjs.sendForm(config.EmailJs.ServiceID, config.EmailJs.TemplateID, e.currentTarget, config.EmailJs.PublicKey)
+      .then((res: EmailJSResponseStatus) => {
+        alert('Email succesfully sent. Thank you for placing your order.');
+        // new and clean cart
+        cartContext?.setCart(CartServices.CreateNewCart());
+        e.currentTarget.reset();
+        console.log(res)
+      }, (err: EmailJSResponseStatus) => {
+        alert('Email sending failed');
+        console.log(err)
+      })
 
-    alert('Thank you for placing your order. You will receive an email soon');
+    // clear form? reload page? Go to
     e.preventDefault();
   }
 
@@ -191,8 +199,8 @@ export const Checkout = () => {
               </div>
               <div className='form-group col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12'>
                 <label htmlFor='state'>State</label>
-                <select id='state' className='form-control' required onSelect={(e) => setState(e.currentTarget.value)}>
-                  <option value={'Queensland'} selected>Queensland</option>
+                <select id='state' className='form-control form-select' required value={state} onChange={(e) => setState(e.currentTarget.value)}>
+                  <option value={'Queensland'}>Queensland</option>
                   <option value={'New South Wales'}>New South Wales</option>
                 </select>
               </div>
@@ -247,11 +255,13 @@ export const Checkout = () => {
               </table>
               <div className='panel'>
                 <h5>Account details</h5>
+                <h6>Make payment using the following details</h6>
                 <ul>
                   <li>Account Name: {config.Company.BankDetails.AccountName}</li>
                   <li>Account Number: {config.Company.BankDetails.AccountNumber}</li>
                   <li>Bank: {config.Company.BankDetails.Bank}</li>
                   <li>BSB: {config.Company.BankDetails.BSB}</li>
+                  <li>Payment narration/description: {phone}</li>
                 </ul>
                 <h5>Order Total: ${deliveryFee + (cartItems.reduce((acc, item) => acc + (item.product.price * item.quantity), 0))}</h5>
                 <ul>
@@ -288,6 +298,15 @@ export const Checkout = () => {
             </div>
             <div className='row mb-2'>
               <button type='submit' className='btn btn-success w-100'>Complete Order</button>
+              <div>
+                <input type='hidden' name='to' id='to' value={email} />
+                <input type='hidden' name='orderId' id='orderId' value={parseInt(now.getMonth() + now.getDate() + phone.substring(6) + now.getHours() + now.getMinutes() + now.getSeconds())} />
+                <input type='hidden' name='orderText' id='orderText' value={cartItems.map(i => `${i.quantity} - ${i.product.name}`).join(';')} />
+                <input type='hidden' name='itemsCost' id='itemsCost' value={cartItems.reduce((acc, item) => acc + (item.product.price * item.quantity), 0)} />
+                <input type='hidden' name='orderAdd' id='orderAdd' value={isDelivery ? `${address} ${suburb} ${state} ${postcode}` : ''} />
+                <input type='hidden' name='deliveryFee' id='deliveryFee' value={deliveryFee} />
+                <input type='hidden' name='totalCost' id='totalCost' value={deliveryFee + cartItems.reduce((acc, item) => acc + (item.product.price * item.quantity), 0)} />
+              </div>
             </div>
           </>}
         </form>
