@@ -1,5 +1,5 @@
-import logo from '../Assets/minibanner.png'
-import { MiniHeaderBanner } from '../Components/MiniHeaderBanner'
+import logo from '../Assets/minibanner.png';
+import { MiniHeaderBanner } from '../Components/MiniHeaderBanner';
 import { CartContext } from "../Context/CartContext";
 import { Link } from 'react-router-dom';
 import emailjs, { EmailJSResponseStatus } from '@emailjs/browser';
@@ -7,7 +7,7 @@ import { useContext, useState, useEffect } from 'react';
 import CartProduct from '../Models/CartProduct';
 import { OrderMode } from '../Models/OrderMode';
 import config from '../config.json';
-import Order from '../Models/Order';
+//import Order from '../Models/Order';
 import Customer from '../Models/Customer';
 import { CartServices } from '../Services/CartServices';
 import Cart from '../Models/Cart';
@@ -31,9 +31,11 @@ export const Checkout = () => {
   const [postcode, setPostcode] = useState('');
   const [state, setState] = useState('');
   const [notes, setNotes] = useState('');
-  const [receipt, setReceipt] = useState<File | undefined>();
+  //const [receipt, setReceipt] = useState<File | undefined>();
 
-  const [order, setOrder] = useState<Order | undefined>();
+  //const [order, setOrder] = useState<Order | undefined>();
+  const [btnText, setBtnText] = useState('Complete Order');
+  const [btnDisabled, setBtnDisabled] = useState(false);
 
   const toggleShowAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsDelivery(e.currentTarget.id === OrderMode.DELIVERY);
@@ -90,7 +92,9 @@ export const Checkout = () => {
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    console.log(e);
+    // disable button
+    setBtnText('Processing... Please wait');
+    setBtnDisabled(true);
 
     // update cart
     let newCartDetails = {
@@ -111,19 +115,19 @@ export const Checkout = () => {
 
     // update order:
     // set order address, customer, mode, products, notes, receipt, total cost
-    let newOrder = {
-      id: parseInt(now.getMonth() + now.getDate() + phone.substring(6) + now.getHours() + now.getMinutes() + now.getSeconds()),
-      customer: newCartDetails.customer,
-      orderMode: isDelivery ? OrderMode.DELIVERY : OrderMode.PICKUP,
-      addressLine: address,
-      suburb: suburb,
-      postcode: postcode,
-      products: newCartDetails.products, //cartItems?
-      notes: notes,
-      receipt: receipt,
-      totalCost: deliveryFee + cartItems.reduce((acc, item) => acc + (item.product.price * item.quantity), 0)
-    } as Order;
-    setOrder(newOrder);
+    // let newOrder = {
+    //   id: parseInt(now.getMonth() + now.getDate() + phone.substring(6) + now.getHours() + now.getMinutes() + now.getSeconds()),
+    //   customer: newCartDetails.customer,
+    //   orderMode: isDelivery ? OrderMode.DELIVERY : OrderMode.PICKUP,
+    //   addressLine: address,
+    //   suburb: suburb,
+    //   postcode: postcode,
+    //   products: newCartDetails.products, //cartItems?
+    //   notes: notes,
+    //   receipt: receipt,
+    //   totalCost: deliveryFee + cartItems.reduce((acc, item) => acc + (item.product.price * item.quantity), 0)
+    // } as Order;
+    // setOrder(newOrder);
 
     // send email with receipt
     emailjs.sendForm(config.EmailJs.ServiceID, config.EmailJs.TemplateID, e.currentTarget, config.EmailJs.PublicKey)
@@ -131,14 +135,17 @@ export const Checkout = () => {
         alert('Email succesfully sent. Thank you for placing your order.');
         // new and clean cart
         cartContext?.setCart(CartServices.CreateNewCart());
-        e.currentTarget.reset();
-        console.log(res)
+        //e.currentTarget.reset(); //causes error, try refreshing page
+        window.location.reload();
+        //navigate(0);
       }, (err: EmailJSResponseStatus) => {
         alert('Email sending failed');
         console.log(err)
       })
 
-    // clear form? reload page? Go to
+    // back to original state
+    setBtnText('Complete Order');
+    setBtnDisabled(false);
     e.preventDefault();
   }
 
@@ -153,7 +160,7 @@ export const Checkout = () => {
     </div>}
     {cartItems.length >= 1 && <div className='row'>
       <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-        <form onSubmit={(e) => handleSubmit(e)}>
+        <form onSubmit={(e) => handleSubmit(e)} encType='multipart/form-data'>
           <div className='row mb-2'>
             <div className='form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12'>
               <label htmlFor='fname'>First Name</label>
@@ -164,7 +171,8 @@ export const Checkout = () => {
               <input type='text' className='form-control' name='lname' id='lname' placeholder='Last name' required value={lname} onChange={(e) => setLname(e.currentTarget.value)} />
             </div>
             <div className='form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12'>
-              <label htmlFor='email'>Email <em>(You will receive an email with your invoice)</em></label>
+              <label htmlFor='email'>Email</label>
+              {/* <!--<em>(You will receive an email with your invoice)</em>--> */}
               <input type='email' className='form-control' name='email' id='email' placeholder='Email' required value={email} onChange={(e) => setEmail(e.currentTarget.value)} />
             </div>
             <div className='form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12'>
@@ -176,18 +184,18 @@ export const Checkout = () => {
 
           <div className='row mb-2'>
             <div className='form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12'>
-              <input className='form-check-input' type='radio' name="orderMode" title='pickup' id={OrderMode.PICKUP} checked={!isDelivery} onChange={(e) => toggleShowAddress(e)} />
+              <input className='form-check-input' type='radio' name="orderMode" value={OrderMode.PICKUP} title='pickup' id={OrderMode.PICKUP} checked={!isDelivery} onChange={(e) => toggleShowAddress(e)} />
               <label className='form-check-label' htmlFor='Pickup' id='labelPickup'>&nbsp; {OrderMode.PICKUP}</label>
               <br />
-              <input className='form-check-input' type='radio' name="orderMode" title='delivery' id={OrderMode.DELIVERY} checked={isDelivery} onChange={(e) => toggleShowAddress(e)} />
+              <input className='form-check-input' type='radio' name="orderMode" value={OrderMode.DELIVERY} title='delivery' id={OrderMode.DELIVERY} checked={isDelivery} onChange={(e) => toggleShowAddress(e)} />
               <label className='form-check-label' htmlFor='Delivery' id='labelDelivery'>&nbsp; {OrderMode.DELIVERY}</label>
             </div>
           </div>
           {isDelivery && !addressConfirmed &&
             <div className='row mb-2'>
               <div className='form-group col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-                <label htmlFor='address'>Address (House no, Street, Suburb)</label>
-                <input type='text' className='form-control' id='address' placeholder='14, Queens street, Brisbane' required value={address} onChange={(e) => setAddress(e.currentTarget.value)} />
+                <label htmlFor='address'>Address (House no, Street number and/or name)</label>
+                <input type='text' className='form-control' id='address' placeholder='House 4, 10 Spirit street' required value={address} onChange={(e) => setAddress(e.currentTarget.value)} />
               </div>
               <div className='form-group col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12'>
                 <label htmlFor='suburb'>Suburb</label>
@@ -261,7 +269,7 @@ export const Checkout = () => {
                   <li>Account Number: {config.Company.BankDetails.AccountNumber}</li>
                   <li>Bank: {config.Company.BankDetails.Bank}</li>
                   <li>BSB: {config.Company.BankDetails.BSB}</li>
-                  <li>Payment narration/description: {phone}</li>
+                  <li>Payment narration/description: {phone !== '' ? phone : '[Your phone number]'}</li>
                 </ul>
                 <h5>Order Total: ${deliveryFee + (cartItems.reduce((acc, item) => acc + (item.product.price * item.quantity), 0))}</h5>
                 <ul>
@@ -276,8 +284,15 @@ export const Checkout = () => {
           {(!isDelivery || (isDelivery && addressConfirmed)) && <>
             <div className='row mb-2'>
               <div className='form-group col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-                <label htmlFor='receipt'>Upload payment receipt</label>
-                <input type='file' className='form-control' name='receipt' accept='image/*, application/pdf' id='receipt' required onChange={(e) => setReceipt(e.target.files !== null ? e.target.files[0] : undefined)} />
+                <label htmlFor='receipt'>Upload payment receipt (Max size: 45kb)</label>
+                <input type='file' className='form-control' name='attachment' accept='image/*, application/pdf' id='receipt' required onChange={(e) => {
+                  if(e.target.files === null || e.target.files[0].size > 46080) {
+                    alert('Please upload a file smaller than 45kb');
+                    e.target.value = '';
+                  } //else {
+                    //setReceipt(e.target.files !== null ? e.target.files[0] : undefined);
+                  //}                  
+                  }} />
               </div>
             </div>
             <div className='row mb-2'>
@@ -297,11 +312,11 @@ export const Checkout = () => {
               </div>
             </div>
             <div className='row mb-2'>
-              <button type='submit' className='btn btn-success w-100'>Complete Order</button>
+              <button type='submit' className='btn btn-success w-100' disabled={btnDisabled}>{btnText}</button>
               <div>
                 <input type='hidden' name='to' id='to' value={email} />
                 <input type='hidden' name='orderId' id='orderId' value={parseInt(now.getMonth() + now.getDate() + phone.substring(6) + now.getHours() + now.getMinutes() + now.getSeconds())} />
-                <input type='hidden' name='orderText' id='orderText' value={cartItems.map(i => `${i.quantity} - ${i.product.name}`).join(';')} />
+                <input type='hidden' name='orderText' id='orderText' value={cartItems.map(i => `${i.quantity} - ${i.product.name}`).join('; ')} />
                 <input type='hidden' name='itemsCost' id='itemsCost' value={cartItems.reduce((acc, item) => acc + (item.product.price * item.quantity), 0)} />
                 <input type='hidden' name='orderAdd' id='orderAdd' value={isDelivery ? `${address} ${suburb} ${state} ${postcode}` : ''} />
                 <input type='hidden' name='deliveryFee' id='deliveryFee' value={deliveryFee} />
