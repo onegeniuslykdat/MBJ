@@ -23,7 +23,7 @@ A web application with a microservice based backend web server that harmonizes a
 The repository contains the following major folders:
 * docs - This contains documents required for the development of the application, including the Plan_Schema drawing.io file 
 * source - This is root folder of the application source code. This contains the backend folder and frontend folder.
-* .github - This is the folder for the CI/CD workflow.
+* .github - This is the folder for the CI/CD workflow. *****
 
 
 
@@ -42,12 +42,12 @@ It also contains services that are used by all other core servcies, known as hub
 * Communication hub
 * Data repository hub
 
-Furthermore, the application follows the Test Driven Development (TDD) methodology. Tests for functions are first created, before the functions are then created. The tests are found in the **Test project**.
+Furthermore, the application follows the Test Driven Development (TDD) methodology. Each service and hub contains tests for its functions.
 
 To get started with the project, use the **git clone** command to clone the repo.
 
 ## Test
-In the App.Tests project, unit tests are found and can be run using the **dotnet test** command.
+In each service or hub, unit tests are also found and can be run using the **dotnet test** command.
 
 ## Build and run
 When all tests are run and passed, use the **dotnet run** command to start the application. Alternatively, in Visual Studio, you can go to **Debug > Start Without Debugging** or **Press CTRL + F5**.
