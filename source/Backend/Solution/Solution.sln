@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35828.75 d17.13
+VisualStudioVersion = 17.13.35828.75
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Data\Tests\Tests.csproj", "{8BB50915-7334-413D-9458-54D8DF1DAE3B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepositoryHub", "Data\RepositoryHub\RepositoryHub.csproj", "{B1577858-B49A-41DA-A414-A07670E16663}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceCommunication", "Communication\ServiceCommunication\ServiceCommunication.csproj", "{1B93FE41-BFA9-453E-95B4-E6168681F550}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{B1577858-B49A-41DA-A414-A07670E16663}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1577858-B49A-41DA-A414-A07670E16663}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1577858-B49A-41DA-A414-A07670E16663}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B93FE41-BFA9-453E-95B4-E6168681F550}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B93FE41-BFA9-453E-95B4-E6168681F550}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B93FE41-BFA9-453E-95B4-E6168681F550}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B93FE41-BFA9-453E-95B4-E6168681F550}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

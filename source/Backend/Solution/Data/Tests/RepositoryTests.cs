@@ -20,22 +20,22 @@ namespace Tests
             repositoryService = new RepositoryServiceMock<MockData>(); //repositoryServiceMock.Object;
         }
         [Fact]
-        public void CreateUser()
+        public async Task CreateUser()
         {
             // Act
-            var result = repositoryService.Create(new MockData() { Id = 4, Name = "Test"}).Result;
+            var result = await repositoryService.Create(new MockData() { Id = 4, Name = "Test"});
 
             // Assert
             Assert.True(result);
         }
         [Theory]
         [InlineData(1)]
-        public void EditUser(int id)
+        public async Task EditUser(int id)
         {
             // Act
-            var editResult = repositoryService.Edit(id, new MockData() { Name = "Test" }).Result;
-            var markArchiveResult = repositoryService.MarkArchived(id).Result;
-            var markDeleteResult = repositoryService.MarkDeleted(id).Result;
+            var editResult = await repositoryService.Edit(id, new MockData() { Name = "Test" });
+            var markArchiveResult = await repositoryService.MarkArchived(id);
+            var markDeleteResult = await repositoryService.MarkDeleted(id);
 
             // Assert
             Assert.True(editResult);
@@ -44,10 +44,10 @@ namespace Tests
         }
         [Theory]
         [InlineData(1)]
-        public void DeleteUser(int id)
+        public async Task DeleteUser(int id)
         {
             // Act
-            var result = repositoryService.Delete(id).Result;
+            var result = await repositoryService.Delete(id);
 
             // Assert
             Assert.Equal(result, id);
@@ -55,10 +55,10 @@ namespace Tests
         [Theory]
         [InlineData(1)]
         [InlineData(0)]
-        public void GetUserById(int id)
+        public async Task GetUserById(int id)
         {
             // Act
-            var result = repositoryService.GetById(id).Result;
+            var result = await repositoryService.GetById(id);
 
             // Assert
             if(id == 0)
@@ -70,10 +70,10 @@ namespace Tests
             }
         }
         [Fact]
-        public void GetUsers()
+        public async Task GetUsers()
         {
             // Act
-            var result = repositoryService.Get().Result;
+            var result = await repositoryService.Get();
 
             // Assert
             Assert.True(result.Count() > 0);
