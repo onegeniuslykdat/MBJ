@@ -6,7 +6,7 @@ using User.Service;
 namespace User.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class AdminController : ControllerBase
 {
     private readonly IUserService userService; 
@@ -19,7 +19,7 @@ public class AdminController : ControllerBase
         userService = _userService;
     }
 
-    [HttpGet(Name = "GetAdmins")]
+    [HttpGet("GetAdmins")]
     public async Task<IActionResult> GetAdmins()
     {
         try
@@ -35,8 +35,8 @@ public class AdminController : ControllerBase
             return StatusCode(500);
         }
     }
-    [HttpPost(Name = "CreateAdmin")]
-    public async Task<IActionResult> CreateAdmin(AdminDTO admin)
+    [HttpPost("CreateAdmin")]
+    public async Task<IActionResult> CreateAdmin([FromBody] AdminDTO admin)
     {
         try
         {
@@ -58,7 +58,7 @@ public class AdminController : ControllerBase
                 State = admin.State,
                 PostCode = admin.PostCode
             };
-            var result = userService.CreateUserAsync(newUser);
+            var result = await userService.CreateUserAsync(newUser);
 
             return Ok(result);
         }
@@ -69,8 +69,8 @@ public class AdminController : ControllerBase
             return StatusCode(500);
         }
     }
-    [HttpPost(Name = "LoginAdmin")]
-    public async Task<IActionResult> LoginAdmin(LoginDTO loginInfo)
+    [HttpPut("LoginAdmin")]
+    public async Task<IActionResult> LoginAdmin([FromBody] LoginDTO loginInfo)
     {
         try
         {
@@ -80,7 +80,7 @@ public class AdminController : ControllerBase
                 return StatusCode(400);
             }
 
-            var result = userService.LoginUserAsync(loginInfo.Email, loginInfo.Password);
+            var result = await userService.LoginUserAsync(loginInfo.Email, loginInfo.Password);
 
             return Ok(result);
         }
