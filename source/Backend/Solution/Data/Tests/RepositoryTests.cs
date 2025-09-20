@@ -23,7 +23,7 @@ namespace Tests
         public async Task CreateUser()
         {
             // Act
-            var result = await repositoryService.Create(new MockData() { Id = 4, Name = "Test"});
+            var result = await repositoryService.CreateAsync(new MockData() { Id = 4, Name = "Test"});
 
             // Assert
             Assert.True(result);
@@ -33,9 +33,9 @@ namespace Tests
         public async Task EditUser(int id)
         {
             // Act
-            var editResult = await repositoryService.Edit(id, new MockData() { Name = "Test" });
-            var markArchiveResult = await repositoryService.MarkArchived(id);
-            var markDeleteResult = await repositoryService.MarkDeleted(id);
+            var editResult = await repositoryService.EditAsync(id, new MockData() { Name = "Test" });
+            var markArchiveResult = await repositoryService.MarkArchivedAsync(id);
+            var markDeleteResult = await repositoryService.MarkDeletedAsync(id);
 
             // Assert
             Assert.True(editResult);
@@ -47,7 +47,7 @@ namespace Tests
         public async Task DeleteUser(int id)
         {
             // Act
-            var result = await repositoryService.Delete(id);
+            var result = await repositoryService.DeleteAsync(id);
 
             // Assert
             Assert.Equal(result, id);
@@ -58,7 +58,7 @@ namespace Tests
         public async Task GetUserById(int id)
         {
             // Act
-            var result = await repositoryService.GetById(id);
+            var result = await repositoryService.GetByIdAsync(id);
 
             // Assert
             if(id == 0)
@@ -73,7 +73,7 @@ namespace Tests
         public async Task GetUsers()
         {
             // Act
-            var result = await repositoryService.Get();
+            var result = await repositoryService.GetAsync();
 
             // Assert
             Assert.True(result.Count() > 0);

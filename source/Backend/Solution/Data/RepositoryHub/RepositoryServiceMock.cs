@@ -17,7 +17,7 @@
                 Id = 3, Name = "Ony"
             }
         };
-        public async Task<bool> Create(MockData data)
+        public async Task<bool> CreateAsync(MockData data)
         {
             try
             {
@@ -29,11 +29,11 @@
                 return false;
             }
         }
-        public async Task<IEnumerable<MockData>> Get()
+        public async Task<IEnumerable<MockData>> GetAsync()
         {
             return testData;
         }
-        public async Task<MockData> GetById(int id)
+        public async Task<MockData> GetByIdAsync(int id)
         {
             try
             {
@@ -46,7 +46,7 @@
             }
             
         }
-        public async Task<bool> Edit(int id, MockData newData)
+        public async Task<bool> EditAsync(int id, MockData newData)
         {
             try
             {
@@ -60,7 +60,7 @@
                 return false;
             }
         }
-        public async Task<bool> MarkArchived(int id)
+        public async Task<bool> MarkArchivedAsync(int id)
         {
             try
             {
@@ -75,7 +75,7 @@
                 return false;
             }
         }
-        public async Task<bool> MarkDeleted(int id)
+        public async Task<bool> MarkDeletedAsync(int id)
         {
             try
             {
@@ -90,7 +90,7 @@
                 return false;
             }
         }
-        public async Task<int> Delete(int id)
+        public async Task<int> DeleteAsync(int id)
         {
             try
             {

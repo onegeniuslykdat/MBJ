@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Communication\ServiceCommunication\ServiceCommunication.csproj" />
+    <ProjectReference Include="..\..\User\User.csproj" />
     <ProjectReference Include="..\RepositoryHub\RepositoryHub.csproj" />
   </ItemGroup>
 
