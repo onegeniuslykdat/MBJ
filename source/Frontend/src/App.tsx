@@ -10,6 +10,7 @@ import { Footer } from './Components/Layout/Footer';
 import { Terms } from './Pages/Terms';
 import { Privacy } from './Pages/Privacy';
 import { CartContextProvider } from './Context/CartContext';
+import './App.css';
 
 function App() {
   return (

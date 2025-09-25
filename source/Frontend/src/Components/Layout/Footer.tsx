@@ -1,5 +1,6 @@
 import { Instagram } from 'react-bootstrap-icons'
 import config from '../../config.json'
+import './footer.css';
 
 export const Footer = () => {
     return <footer className="footer">
