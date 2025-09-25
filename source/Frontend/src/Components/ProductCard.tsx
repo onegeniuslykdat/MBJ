@@ -5,6 +5,7 @@ import Cart from '../Models/Cart';
 import CartProduct from '../Models/CartProduct';
 import { useContext } from 'react';
 import { CartContext } from '../Context/CartContext';
+import './productcard.css';
 
 interface ProductCardProps {
   product: Product
@@ -36,7 +37,7 @@ export const ProductCard = (props: ProductCardProps) => {
         <h5 className='card-title'>{props.product.name}</h5>
         <p className='card-text'>{props.product.description}</p>
         <div className='d-flex justify-content-between'>
-          <Link to={`/MBJ/shop/products/${props.product.id}`} className='btn btn-info'>View Details</Link>
+          <Link to={`/MBJ/shop/products/${props.product.id}`} className='btn btn-gold'>View Details</Link>
           <button className='btn btn-warning' onClick={() => handleAddToCart()}>Add to Cart</button>
         </div>
       </div>

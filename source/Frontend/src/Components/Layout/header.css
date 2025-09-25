@@ -1,9 +1,29 @@
-.navbar {
+/* .navbar {
     background-color: #f6c343
-  }
+  } */
 
 .navbar-brand-logo {
-    color: '#4e342e';
-    font-weight: 'bold'
+  color: '#4e342e';
+  font-weight: 'bold'
 }
 
+.navbar {
+  background-color: var(--gold-color);
+}
+
+.navbar-brand {
+  font-family: 'Pacifico', cursive;
+  font-size: 1.8rem;
+  color: white;
+}
+
+.navbar-nav .nav-link {
+  color: white;
+  font-weight: bold;
+}
+
+.navCartIcon {
+  border-radius: 50% !important;
+    padding: 3px !important;
+    font-size: 25px !important;
+}

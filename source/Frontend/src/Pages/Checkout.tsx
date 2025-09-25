@@ -7,11 +7,11 @@ import { useContext, useState, useEffect } from 'react';
 import CartProduct from '../Models/CartProduct';
 import { OrderMode } from '../Models/OrderMode';
 import config from '../config.json';
-//import Order from '../Models/Order';
 import Customer from '../Models/Customer';
 import { CartServices } from '../Services/CartServices';
 import Cart from '../Models/Cart';
 import { CartStatus } from '../Models/CartStatus';
+import './checkout.css';
 
 export const Checkout = () => {
   const cartContext = useContext(CartContext);
@@ -31,9 +31,6 @@ export const Checkout = () => {
   const [postcode, setPostcode] = useState('');
   const [state, setState] = useState('');
   const [notes, setNotes] = useState('');
-  //const [receipt, setReceipt] = useState<File | undefined>();
-
-  //const [order, setOrder] = useState<Order | undefined>();
   const [btnText, setBtnText] = useState('Complete Order');
   const [btnDisabled, setBtnDisabled] = useState(false);
 
@@ -112,22 +109,6 @@ export const Checkout = () => {
     } as Cart;
     let updatedCart = CartServices.EditCart(cartContext?.cart as Cart, newCartDetails);
     cartContext?.setCart(updatedCart);
-
-    // update order:
-    // set order address, customer, mode, products, notes, receipt, total cost
-    // let newOrder = {
-    //   id: parseInt(now.getMonth() + now.getDate() + phone.substring(6) + now.getHours() + now.getMinutes() + now.getSeconds()),
-    //   customer: newCartDetails.customer,
-    //   orderMode: isDelivery ? OrderMode.DELIVERY : OrderMode.PICKUP,
-    //   addressLine: address,
-    //   suburb: suburb,
-    //   postcode: postcode,
-    //   products: newCartDetails.products, //cartItems?
-    //   notes: notes,
-    //   receipt: receipt,
-    //   totalCost: deliveryFee + cartItems.reduce((acc, item) => acc + (item.product.price * item.quantity), 0)
-    // } as Order;
-    // setOrder(newOrder);
 
     // send email with receipt
     emailjs.sendForm(config.EmailJs.ServiceID, config.EmailJs.TemplateID, e.currentTarget, config.EmailJs.PublicKey)
@@ -289,9 +270,7 @@ export const Checkout = () => {
                   if(e.target.files === null || e.target.files[0].size > 46080) {
                     alert('Please upload a file smaller than 45kb');
                     e.target.value = '';
-                  } //else {
-                    //setReceipt(e.target.files !== null ? e.target.files[0] : undefined);
-                  //}                  
+                  }                  
                   }} />
               </div>
             </div>

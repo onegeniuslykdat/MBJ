@@ -15,16 +15,3 @@ export const AboutUsSummary = () => {
     </section>
   </div>
 }
-
-// At **[Your Brand Name]**, we honour the traditional methods passed down through generations, while adding our own twist to elevate the bole experience. From the smoky aroma of charcoal-grilled plantains to the spicy kick of our signature pepper sauce, every plate is crafted with love, flavour, and a deep respect for Nigerian culinary heritage.
-
-// Whether you're grabbing a quick bite on the go or sharing a platter with friends, we’re here to serve you bold flavours, warm hospitality, and a taste of home.
-
-// **Our Mission:**
-// To unite hearts and palates through the rich, unforgettable taste of Nigerian bole — one plate at a time.
-
-// **Our Promise:**
-// Fresh ingredients. Authentic recipes. Unmatched flavour.
-
-// Come hungry. Leave happy.
-// **This is bole, the Nigerian way.**

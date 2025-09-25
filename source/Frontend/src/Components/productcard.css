@@ -1,0 +1,19 @@
+ .glossy-card {
+      background: linear-gradient(135deg, #fffbe6, #fff9c4);
+      border: none;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      border-radius: 15px;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+
+    .glossy-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .glossy-card img {
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+      height: 200px;
+      object-fit: cover;
+    }
